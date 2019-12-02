@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"bufio"
-	"os"
+	"io/ioutil"
 	"strconv"
 	"strings"
 )
@@ -32,10 +31,8 @@ func star1_execute_intcode(intcode []int) int {
 }
 
 func star1() {
-	file, _ := os.Open("input")
-	scanner := bufio.NewScanner(file)
-	scanner.Scan()
-	input_array := strings.Split(scanner.Text(), ",")
+	content, _ := ioutil.ReadFile("input")
+	input_array := strings.Split(string(content), ",")
 	intcode := generate_intcode(input_array)
 	intcode[1] = 12
 	intcode[2] = 2
