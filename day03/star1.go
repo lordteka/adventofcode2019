@@ -9,15 +9,15 @@ import (
 
 type star_1Command struct {
 	Direction string
-	Distance int
+	Distance  int
 }
 
 type star_1Path []star_1Command
 
 type star_1Segment struct {
 	Horizontal bool
-	Position int
-	Bounds [2]int
+	Position   int
+	Bounds     [2]int
 }
 
 type star_1Point struct {
@@ -29,7 +29,7 @@ type star_1Point struct {
 func star_1smallest_manhattan_distance(intersections []star_1Point) int {
 	smallest := intersections[0].X + intersections[0].Y
 	for _, point := range intersections {
-		if point.X + point.Y < smallest {
+		if point.X+point.Y < smallest {
 			smallest = point.X + point.Y
 		}
 	}
@@ -56,16 +56,16 @@ func star_1path_to_segments(path star_1Path) (segments []star_1Segment) {
 	for _, command := range path {
 		switch command.Direction {
 		case "U":
-			segments = append(segments, star_1Segment{ false, x, [2]int{y, y + command.Distance} })
+			segments = append(segments, star_1Segment{false, x, [2]int{y, y + command.Distance}})
 			y += command.Distance
 		case "D":
-			segments = append(segments, star_1Segment{ false, x, [2]int{y - command.Distance, y} })
+			segments = append(segments, star_1Segment{false, x, [2]int{y - command.Distance, y}})
 			y -= command.Distance
 		case "R":
-			segments = append(segments, star_1Segment{ true, y, [2]int{x, x + command.Distance} })
+			segments = append(segments, star_1Segment{true, y, [2]int{x, x + command.Distance}})
 			x += command.Distance
 		case "L":
-			segments = append(segments, star_1Segment{ true, y, [2]int{x - command.Distance, x} })
+			segments = append(segments, star_1Segment{true, y, [2]int{x - command.Distance, x}})
 			x -= command.Distance
 		}
 	}
@@ -76,7 +76,7 @@ func star_1string_to_path(input string) (output star_1Path) {
 	for _, command := range strings.Split(input, ",") {
 		direction := string(command[0])
 		distance, _ := strconv.Atoi(command[1:])
-		output = append(output, star_1Command{ direction, distance })
+		output = append(output, star_1Command{direction, distance})
 	}
 	return
 }

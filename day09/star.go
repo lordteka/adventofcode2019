@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
-	"os"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -13,7 +13,7 @@ type Instruction struct {
 	Param1Mode int
 	Param2Mode int
 	Param3Mode int
-	Opcode int
+	Opcode     int
 }
 
 var RelativeBase int = 0
@@ -21,26 +21,26 @@ var RelativeBase int = 0
 var Intcode []int
 
 func extend_intcode(offset int) {
-	Intcode = append(Intcode, make([]int, offset - len(Intcode) + 3)...)
+	Intcode = append(Intcode, make([]int, offset-len(Intcode)+3)...)
 }
 
 func at(offset, mode int) (value_with_mode int) {
 	switch mode {
-		case 0:
-			if offset >= len(Intcode) {
-				extend_intcode(offset)
-			}
-			value_with_mode = Intcode[offset]
-		case 1:
-			value_with_mode = offset
-		case 2:
-			if offset >= len(Intcode) || RelativeBase + Intcode[offset] >= len(Intcode) {
-				extend_intcode(RelativeBase + offset)
-			}
-			value_with_mode = Intcode[offset] + RelativeBase
-		default:
-			fmt.Println("Error: Bad Mode")
-			return -1
+	case 0:
+		if offset >= len(Intcode) {
+			extend_intcode(offset)
+		}
+		value_with_mode = Intcode[offset]
+	case 1:
+		value_with_mode = offset
+	case 2:
+		if offset >= len(Intcode) || RelativeBase+Intcode[offset] >= len(Intcode) {
+			extend_intcode(RelativeBase + offset)
+		}
+		value_with_mode = Intcode[offset] + RelativeBase
+	default:
+		fmt.Println("Error: Bad Mode")
+		return -1
 	}
 	if value_with_mode >= len(Intcode) {
 		extend_intcode(value_with_mode)
@@ -49,16 +49,16 @@ func at(offset, mode int) (value_with_mode int) {
 }
 
 func add(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
-	param2 := Intcode[at(offset + 2, instruction.Param2Mode)]
-	Intcode[at(offset + 3, instruction.Param3Mode)] = param1 + param2
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
+	param2 := Intcode[at(offset+2, instruction.Param2Mode)]
+	Intcode[at(offset+3, instruction.Param3Mode)] = param1 + param2
 	return offset + 4
 }
 
 func mul(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
-	param2 := Intcode[at(offset + 2, instruction.Param2Mode)]
-	Intcode[at(offset + 3, instruction.Param3Mode)] = param1 * param2
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
+	param2 := Intcode[at(offset+2, instruction.Param2Mode)]
+	Intcode[at(offset+3, instruction.Param3Mode)] = param1 * param2
 	return offset + 4
 }
 
@@ -66,59 +66,59 @@ func input(offset int, instruction Instruction) int {
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print("enter input : ")
 	scanner.Scan()
-	Intcode[at(offset + 1, instruction.Param1Mode)], _ = strconv.Atoi(scanner.Text())
+	Intcode[at(offset+1, instruction.Param1Mode)], _ = strconv.Atoi(scanner.Text())
 	return offset + 2
 }
 
 func output(offset int, instruction Instruction) int {
-	fmt.Println(Intcode[at(offset + 1, instruction.Param1Mode)])
+	fmt.Println(Intcode[at(offset+1, instruction.Param1Mode)])
 	return offset + 2
 }
 
 func jump_if_true(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
 	if param1 != 0 {
-		return Intcode[at(offset + 2, instruction.Param2Mode)]
+		return Intcode[at(offset+2, instruction.Param2Mode)]
 	}
 	return offset + 3
 }
 
 func jump_if_false(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
 	if param1 == 0 {
-		return Intcode[at(offset + 2, instruction.Param2Mode)]
+		return Intcode[at(offset+2, instruction.Param2Mode)]
 	}
 	return offset + 3
 }
 
 func less_than(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
-	param2 := Intcode[at(offset + 2, instruction.Param2Mode)]
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
+	param2 := Intcode[at(offset+2, instruction.Param2Mode)]
 	if param1 < param2 {
-		Intcode[at(offset + 3, instruction.Param3Mode)] = 1
+		Intcode[at(offset+3, instruction.Param3Mode)] = 1
 	} else {
-		Intcode[at(offset + 3, instruction.Param3Mode)] = 0
+		Intcode[at(offset+3, instruction.Param3Mode)] = 0
 	}
 	return offset + 4
 }
 
 func equals(offset int, instruction Instruction) int {
-	param1 := Intcode[at(offset + 1, instruction.Param1Mode)]
-	param2 := Intcode[at(offset + 2, instruction.Param2Mode)]
+	param1 := Intcode[at(offset+1, instruction.Param1Mode)]
+	param2 := Intcode[at(offset+2, instruction.Param2Mode)]
 	if param1 == param2 {
-		Intcode[at(offset + 3, instruction.Param3Mode)] = 1
+		Intcode[at(offset+3, instruction.Param3Mode)] = 1
 	} else {
-		Intcode[at(offset + 3, instruction.Param3Mode)] = 0
+		Intcode[at(offset+3, instruction.Param3Mode)] = 0
 	}
 	return offset + 4
 }
 
 func add_to_base(offset int, instruction Instruction) int {
-	RelativeBase += Intcode[at(offset + 1, instruction.Param1Mode)]
+	RelativeBase += Intcode[at(offset+1, instruction.Param1Mode)]
 	return offset + 2
 }
 
-var Procs [10]func(int, Instruction) int = [10]func(int, Instruction) int {
+var Procs [10]func(int, Instruction) int = [10]func(int, Instruction) int{
 	nil,           // opcode 0
 	add,           // opcode 1
 	mul,           // opcode 2
@@ -149,7 +149,7 @@ func execute_intcode() {
 	}
 }
 
-func generate_intcode(filename string) () {
+func generate_intcode(filename string) {
 	content, _ := ioutil.ReadFile(filename)
 	code_array := strings.Split(string(content), ",")
 

@@ -30,43 +30,43 @@ type Case struct {
 
 type Robot struct {
 	Position Pos
-	Facing int
-	Painted int
+	Facing   int
+	Painted  int
 }
 
 var Bob Robot = Robot{Pos{0, 0}, Up, 0}
 
 func turn_right() {
 	switch Bob.Facing {
-		case Up:
-			Bob.Facing = Right
-			Bob.Position.X++
-		case Right:
-			Bob.Facing = Down
-			Bob.Position.Y--
-		case Down:
-			Bob.Facing = Left
-			Bob.Position.X--
-		case Left:
-			Bob.Facing = Up
-			Bob.Position.Y++
+	case Up:
+		Bob.Facing = Right
+		Bob.Position.X++
+	case Right:
+		Bob.Facing = Down
+		Bob.Position.Y--
+	case Down:
+		Bob.Facing = Left
+		Bob.Position.X--
+	case Left:
+		Bob.Facing = Up
+		Bob.Position.Y++
 	}
 }
 
 func turn_left() {
 	switch Bob.Facing {
-		case Up:
-			Bob.Facing = Left
-			Bob.Position.X--
-		case Left:
-			Bob.Facing = Down
-			Bob.Position.Y--
-		case Down:
-			Bob.Facing = Right
-			Bob.Position.X++
-		case Right:
-			Bob.Facing = Up
-			Bob.Position.Y++
+	case Up:
+		Bob.Facing = Left
+		Bob.Position.X--
+	case Left:
+		Bob.Facing = Down
+		Bob.Position.Y--
+	case Down:
+		Bob.Facing = Right
+		Bob.Position.X++
+	case Right:
+		Bob.Facing = Up
+		Bob.Position.Y++
 	}
 }
 
@@ -105,19 +105,19 @@ func add_case_to_historic(case_ Case) {
 	CaseHistoric = append(CaseHistoric, case_)
 }
 
-func paint_and_turn(current_case Case) () {
+func paint_and_turn(current_case Case) {
 	var open bool
 	var color int
 	var direction int
 	for {
 		IntcodeInput <- current_case.Color
-		color, open = <- IntcodeOutput
+		color, open = <-IntcodeOutput
 		if !open {
 			return
 		}
 		current_case = paint(color, current_case)
 		add_case_to_historic(current_case)
-		direction, open = <- IntcodeOutput
+		direction, open = <-IntcodeOutput
 		if !open {
 			return
 		}

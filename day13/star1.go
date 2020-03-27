@@ -7,8 +7,8 @@ import (
 )
 
 type Tile struct {
-	X int
-	Y int
+	X  int
+	Y  int
 	Id int
 }
 
@@ -16,17 +16,21 @@ var Map []Tile
 
 func build_map() {
 	for {
-		x, open := <- IntcodeOutput
-		if !open { return }
-		y := <- IntcodeOutput
-		id := <- IntcodeOutput
+		x, open := <-IntcodeOutput
+		if !open {
+			return
+		}
+		y := <-IntcodeOutput
+		id := <-IntcodeOutput
 		Map = append(Map, Tile{x, y, id})
 	}
 }
 
 func count_block_tile() (count int) {
 	for _, t := range Map {
-		if t.Id == 2 { count++ }
+		if t.Id == 2 {
+			count++
+		}
 	}
 	return
 }

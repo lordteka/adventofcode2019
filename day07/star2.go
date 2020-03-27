@@ -24,7 +24,7 @@ func run_amps(intcode []int, a, b, c, d, e int) int {
 	go ExecuteIntcode(append([]int(nil), intcode...), btoc, ctod, c)
 	go ExecuteIntcode(append([]int(nil), intcode...), ctod, dtoe, d)
 	ExecuteIntcode(append([]int(nil), intcode...), dtoe, etoa, e)
-	return <- etoa
+	return <-etoa
 }
 
 func try_all_phase(intcode []int) (max_output int) {

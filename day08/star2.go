@@ -15,10 +15,10 @@ func (layer Layer) String() (image string) {
 	for y := range layer {
 		for x := range layer[y] {
 			switch layer[y][x] {
-				case 0:
-					image += " "
-				case 1:
-					image += "♥"
+			case 0:
+				image += " "
+			case 1:
+				image += "♥"
 			}
 		}
 		image += "\n"

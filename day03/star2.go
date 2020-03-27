@@ -9,17 +9,17 @@ import (
 
 type Command struct {
 	Direction string
-	Distance int
+	Distance  int
 }
 
 type Path []Command
 
 type Vector struct {
-	IsHorizontal bool
+	IsHorizontal        bool
 	DirectionIsReversed bool
-	Position int
-	Bounds [2]int
-	PreviousStepNumber int
+	Position            int
+	Bounds              [2]int
+	PreviousStepNumber  int
 }
 
 func combined_step_number(horizontal, vertical Vector, x, y int) (steps int) {
@@ -66,16 +66,16 @@ func path_to_vectors(path Path) (vectors []Vector) {
 	for _, command := range path {
 		switch command.Direction {
 		case "U":
-			vectors = append(vectors, Vector{ false, false, x, [2]int{y, y + command.Distance}, steps })
+			vectors = append(vectors, Vector{false, false, x, [2]int{y, y + command.Distance}, steps})
 			y += command.Distance
 		case "D":
-			vectors = append(vectors, Vector{ false, true, x, [2]int{y - command.Distance, y}, steps })
+			vectors = append(vectors, Vector{false, true, x, [2]int{y - command.Distance, y}, steps})
 			y -= command.Distance
 		case "R":
-			vectors = append(vectors, Vector{ true, false, y, [2]int{x, x + command.Distance}, steps })
+			vectors = append(vectors, Vector{true, false, y, [2]int{x, x + command.Distance}, steps})
 			x += command.Distance
 		case "L":
-			vectors = append(vectors, Vector{ true, true, y, [2]int{x - command.Distance, x}, steps })
+			vectors = append(vectors, Vector{true, true, y, [2]int{x - command.Distance, x}, steps})
 			x -= command.Distance
 		}
 		steps += command.Distance
@@ -87,7 +87,7 @@ func string_to_path(input string) (output Path) {
 	for _, command := range strings.Split(input, ",") {
 		direction := string(command[0])
 		distance, _ := strconv.Atoi(command[1:])
-		output = append(output, Command{ direction, distance})
+		output = append(output, Command{direction, distance})
 	}
 	return
 }

@@ -30,7 +30,9 @@ var Moons [4]Moon = [4]Moon{
 func update_velocity() {
 	for i1 := range Moons {
 		for i2 := range Moons {
-			if i1 == i2 { continue }
+			if i1 == i2 {
+				continue
+			}
 			if Moons[i1].Pos.X > Moons[i2].Pos.X {
 				Moons[i1].Vel.X--
 			} else if Moons[i1].Pos.X < Moons[i2].Pos.X {

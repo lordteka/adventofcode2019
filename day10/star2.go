@@ -3,10 +3,10 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"bufio"
+	"fmt"
 	"math"
+	"os"
 	"sort"
 )
 
@@ -20,11 +20,11 @@ type Vector Asteroid
 var Asteroids []Asteroid
 
 func blocked(c, a, b Asteroid) bool {
-	v_ac:= Vector{c.X - a.X, c.Y - a.Y}
+	v_ac := Vector{c.X - a.X, c.Y - a.Y}
 	v_ab := Vector{b.X - a.X, b.Y - a.Y}
 	v_ca := Vector{a.X - c.X, a.Y - c.Y}
 	v_cb := Vector{b.X - c.X, b.Y - c.Y}
-	return (v_ac.X * v_ab.Y - v_ab.X * v_ac.Y) == 0 && (v_ca.X * v_cb.X + v_ca.Y * v_cb.Y) <= 0
+	return (v_ac.X*v_ab.Y-v_ab.X*v_ac.Y) == 0 && (v_ca.X*v_cb.X+v_ca.Y*v_cb.Y) <= 0
 }
 func count_seen(a1 Asteroid) (count int) {
 	var seen bool
@@ -71,17 +71,17 @@ func vector(a1, a2 Asteroid) Vector {
 }
 
 func dot_product(v1, v2 Vector) int {
-	return v1.X * v2.X + v1.Y * v2.Y
+	return v1.X*v2.X + v1.Y*v2.Y
 }
 
 func cross_product(v1, v2 Vector) int {
-	return v1.X * v2.Y - v1.Y * v2.X
+	return v1.X*v2.Y - v1.Y*v2.X
 }
 
 func angle(v1, v2 Vector) float64 {
 	a := math.Atan2(float64(cross_product(v1, v2)), float64(dot_product(v1, v2)))
 	if a < 0 {
-		return a + 2 * math.Pi
+		return a + 2*math.Pi
 	}
 	return a
 }
@@ -96,7 +96,7 @@ func get_angles(station Asteroid, a_indexes []int) (angles []float64) {
 
 func destroy(to_destroy []int) {
 	for i, a_index := range to_destroy {
-		Asteroids = append(Asteroids[:a_index - i], Asteroids[a_index + 1 - i:]...)
+		Asteroids = append(Asteroids[:a_index-i], Asteroids[a_index+1-i:]...)
 	}
 }
 
@@ -108,12 +108,12 @@ type AngleOfIndex struct {
 
 type AngleOfIndexes []AngleOfIndex
 
-func (s AngleOfIndexes) Len() int{
+func (s AngleOfIndexes) Len() int {
 	return len(s)
 }
 
 func (s AngleOfIndexes) Swap(i, j int) {
- s[i], s[j] = s[j], s[i]
+	s[i], s[j] = s[j], s[i]
 }
 
 func (s AngleOfIndexes) Less(i, j int) bool {
@@ -123,7 +123,7 @@ func (s AngleOfIndexes) Less(i, j int) bool {
 func find_200th_destroyed_asteroid_from(station Asteroid) Asteroid {
 	var to_destroy []int
 	var destroyed_count int
-	for len(to_destroy) + destroyed_count < 200 {
+	for len(to_destroy)+destroyed_count < 200 {
 		destroyed_count += len(to_destroy)
 		destroy(to_destroy)
 		to_destroy = seen(station)
@@ -135,7 +135,7 @@ func find_200th_destroyed_asteroid_from(station Asteroid) Asteroid {
 	}
 	sort.Sort(final_slice)
 	fmt.Println(final_slice)
-	return Asteroids[final_slice[200 - destroyed_count - 1].Index]
+	return Asteroids[final_slice[200-destroyed_count-1].Index]
 }
 
 func monitoring_station() (station Asteroid) {
@@ -149,7 +149,7 @@ func monitoring_station() (station Asteroid) {
 	return
 }
 
-func get_asteroids(filename string) () {
+func get_asteroids(filename string) {
 	file, _ := os.Open(filename)
 	scanner := bufio.NewScanner(file)
 	var y int

@@ -10,7 +10,7 @@ func amp(intcode []int, phase, input int) int {
 	Stream <- phase
 	Stream <- input
 	ExecuteIntcode(intcode)
-	return <- Stream
+	return <-Stream
 }
 
 func run_amps(intcode []int, a, b, c, d, e int) int {

@@ -9,10 +9,10 @@ func star1check_number(num int) bool {
 	var adjacent bool
 	num_string := strconv.Itoa(num)
 	for i := 1; i < 6; i++ {
-		if !adjacent && num_string[i - 1] == num_string[i] {
+		if !adjacent && num_string[i-1] == num_string[i] {
 			adjacent = true
 		}
-		if num_string[i - 1] > num_string[i] {
+		if num_string[i-1] > num_string[i] {
 			return false
 		}
 	}

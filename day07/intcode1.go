@@ -13,7 +13,7 @@ type Instruction struct {
 	Param1Mode int
 	Param2Mode int
 	Param3Mode int
-	Opcode int
+	Opcode     int
 }
 
 func value_with_mode(intcode []int, value, mode int) int {
@@ -29,70 +29,70 @@ func value_with_mode(intcode []int, value, mode int) int {
 }
 
 func add(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 + param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 + param2
 	return offset + 4
 }
 
 func mul(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 * param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 * param2
 	return offset + 4
 }
 
 var Stream chan int = make(chan int, 2)
 
 func input(intcode []int, offset int, instruction Instruction) int {
-	intcode[intcode[offset + 1]] = <- Stream
+	intcode[intcode[offset+1]] = <-Stream
 	return offset + 2
 }
 
 func output(intcode []int, offset int, instruction Instruction) int {
-	Stream <- value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+	Stream <- value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 	return offset + 2
 }
 
 func jump_if_true(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 	if param1 != 0 {
-		return value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+		return value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	}
 	return offset + 3
 }
 
 func jump_if_false(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 	if param1 == 0 {
-		return value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+		return value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	}
 	return offset + 3
 }
 
 func less_than(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	if param1 < param2 {
-		intcode[intcode[offset + 3]] = 1
+		intcode[intcode[offset+3]] = 1
 	} else {
-		intcode[intcode[offset + 3]] = 0
+		intcode[intcode[offset+3]] = 0
 	}
 	return offset + 4
 }
 
 func equals(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	if param1 == param2 {
-		intcode[intcode[offset + 3]] = 1
+		intcode[intcode[offset+3]] = 1
 	} else {
-		intcode[intcode[offset + 3]] = 0
+		intcode[intcode[offset+3]] = 0
 	}
 	return offset + 4
 }
 
-var Procs [9]func([]int, int, Instruction) int = [9]func([]int, int, Instruction) int {
+var Procs [9]func([]int, int, Instruction) int = [9]func([]int, int, Instruction) int{
 	nil,           // opcode 0
 	add,           // opcode 1
 	mul,           // opcode 2

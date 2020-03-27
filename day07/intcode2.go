@@ -13,7 +13,7 @@ type Instruction struct {
 	Param1Mode int
 	Param2Mode int
 	Param3Mode int
-	Opcode int
+	Opcode     int
 }
 
 func value_with_mode(intcode []int, value, mode int) int {
@@ -29,63 +29,63 @@ func value_with_mode(intcode []int, value, mode int) int {
 }
 
 func add(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 + param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 + param2
 	return offset + 4
 }
 
 func mul(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 * param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 * param2
 	return offset + 4
 }
 
 func jump_if_true(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 	if param1 != 0 {
-		return value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+		return value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	}
 	return offset + 3
 }
 
 func jump_if_false(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 	if param1 == 0 {
-		return value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+		return value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	}
 	return offset + 3
 }
 
 func less_than(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	if param1 < param2 {
-		intcode[intcode[offset + 3]] = 1
+		intcode[intcode[offset+3]] = 1
 	} else {
-		intcode[intcode[offset + 3]] = 0
+		intcode[intcode[offset+3]] = 0
 	}
 	return offset + 4
 }
 
 func equals(intcode []int, offset int, instruction Instruction) int {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
 	if param1 == param2 {
-		intcode[intcode[offset + 3]] = 1
+		intcode[intcode[offset+3]] = 1
 	} else {
-		intcode[intcode[offset + 3]] = 0
+		intcode[intcode[offset+3]] = 0
 	}
 	return offset + 4
 }
 
-var Procs [9]func([]int, int, Instruction) int = [9]func([]int, int, Instruction) int {
+var Procs [9]func([]int, int, Instruction) int = [9]func([]int, int, Instruction) int{
 	nil,           // opcode 0
 	add,           // opcode 1
 	mul,           // opcode 2
-	nil,//input,   // opcode 3
-	nil,//output,  // opcode 4
+	nil,           //input,   // opcode 3
+	nil,           //output,  // opcode 4
 	jump_if_true,  // opcode 5
 	jump_if_false, // opcode 6
 	less_than,     // opcode 6
@@ -110,10 +110,10 @@ func ExecuteIntcode(intcode []int, read, write chan int, amp int) {
 		case 0: // WTF ??
 			return
 		case 3:
-			intcode[intcode[offset + 1]] = <- read
+			intcode[intcode[offset+1]] = <-read
 			offset += 2
 		case 4:
-			write <- value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
+			write <- value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
 			offset += 2
 		default:
 			offset = Procs[instruction.Opcode](intcode, offset, instruction)

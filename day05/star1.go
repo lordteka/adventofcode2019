@@ -3,8 +3,8 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -14,7 +14,7 @@ type Instruction struct {
 	Param1Mode int
 	Param2Mode int
 	Param3Mode int
-	Opcode int
+	Opcode     int
 }
 
 func parse_instruction(code int) (instruction Instruction) {
@@ -41,15 +41,15 @@ func value_with_mode(intcode []int, value, mode int) int {
 }
 
 func add(intcode []int, offset int, instruction Instruction) {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 + param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 + param2
 }
 
 func mul(intcode []int, offset int, instruction Instruction) {
-	param1 := value_with_mode(intcode, intcode[offset + 1], instruction.Param1Mode)
-	param2 := value_with_mode(intcode, intcode[offset + 2], instruction.Param2Mode)
-	intcode[intcode[offset + 3]] = param1 * param2
+	param1 := value_with_mode(intcode, intcode[offset+1], instruction.Param1Mode)
+	param2 := value_with_mode(intcode, intcode[offset+2], instruction.Param2Mode)
+	intcode[intcode[offset+3]] = param1 * param2
 }
 
 func execute_intcode(intcode []int) {
@@ -66,10 +66,10 @@ func execute_intcode(intcode []int) {
 		case 3:
 			fmt.Print("enter input : ")
 			scanner.Scan()
-			intcode[intcode[i + 1]], _ = strconv.Atoi(scanner.Text())
+			intcode[intcode[i+1]], _ = strconv.Atoi(scanner.Text())
 			i += 2
 		case 4:
-			fmt.Println(value_with_mode(intcode, intcode[i + 1], instruction.Param1Mode))
+			fmt.Println(value_with_mode(intcode, intcode[i+1], instruction.Param1Mode))
 			i += 2
 		}
 	}

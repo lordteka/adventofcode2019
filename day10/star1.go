@@ -3,9 +3,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
 )
 
 type Asteroid struct {
@@ -18,11 +18,11 @@ type Vector Asteroid
 var Asteroids []Asteroid
 
 func blocked(c, a, b Asteroid) bool {
-	v_ac:= Vector{c.X - a.X, c.Y - a.Y}
+	v_ac := Vector{c.X - a.X, c.Y - a.Y}
 	v_ab := Vector{b.X - a.X, b.Y - a.Y}
 	v_ca := Vector{a.X - c.X, a.Y - c.Y}
 	v_cb := Vector{b.X - c.X, b.Y - c.Y}
-	return (v_ac.X * v_ab.Y - v_ab.X * v_ac.Y) == 0 && (v_ca.X * v_cb.X + v_ca.Y * v_cb.Y) <= 0
+	return (v_ac.X*v_ab.Y-v_ab.X*v_ac.Y) == 0 && (v_ca.X*v_cb.X+v_ca.Y*v_cb.Y) <= 0
 }
 
 func count_seen(a1 Asteroid) (count int) {
@@ -54,7 +54,7 @@ func most_seen() (count int) {
 	return
 }
 
-func get_asteroids(filename string) () {
+func get_asteroids(filename string) {
 	file, _ := os.Open(filename)
 	scanner := bufio.NewScanner(file)
 	var y int

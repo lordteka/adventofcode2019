@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -23,9 +23,9 @@ func star1_execute_intcode(intcode []int) int {
 	for i := 0; intcode[i] != 99; i += 4 {
 		switch intcode[i] {
 		case 1:
-			intcode[intcode[i + 3]] = intcode[intcode[i + 1]] + intcode[intcode[i + 2]]
+			intcode[intcode[i+3]] = intcode[intcode[i+1]] + intcode[intcode[i+2]]
 		case 2:
-			intcode[intcode[i + 3]] = intcode[intcode[i + 1]] * intcode[intcode[i + 2]]
+			intcode[intcode[i+3]] = intcode[intcode[i+1]] * intcode[intcode[i+2]]
 		}
 	}
 	return intcode[0]

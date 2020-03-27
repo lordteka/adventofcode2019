@@ -30,7 +30,9 @@ var Moons [4]Moon = [4]Moon{
 func update_velocity_x() {
 	for i1 := range Moons {
 		for i2 := range Moons {
-			if i1 == i2 { continue }
+			if i1 == i2 {
+				continue
+			}
 			if Moons[i1].Pos.X > Moons[i2].Pos.X {
 				Moons[i1].Vel.X--
 			} else if Moons[i1].Pos.X < Moons[i2].Pos.X {
@@ -43,7 +45,9 @@ func update_velocity_x() {
 func update_velocity_y() {
 	for i1 := range Moons {
 		for i2 := range Moons {
-			if i1 == i2 { continue }
+			if i1 == i2 {
+				continue
+			}
 			if Moons[i1].Pos.Y > Moons[i2].Pos.Y {
 				Moons[i1].Vel.Y--
 			} else if Moons[i1].Pos.Y < Moons[i2].Pos.Y {
@@ -56,7 +60,9 @@ func update_velocity_y() {
 func update_velocity_z() {
 	for i1 := range Moons {
 		for i2 := range Moons {
-			if i1 == i2 { continue }
+			if i1 == i2 {
+				continue
+			}
 			if Moons[i1].Pos.Z > Moons[i2].Pos.Z {
 				Moons[i1].Vel.Z--
 			} else if Moons[i1].Pos.Z < Moons[i2].Pos.Z {

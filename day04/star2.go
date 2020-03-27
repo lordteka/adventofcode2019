@@ -11,15 +11,15 @@ func check_number(num int) bool {
 	var adjacent_count int
 	num_string := strconv.Itoa(num)
 	for i := 1; i < 6; i++ {
-		if num_string[i - 1] > num_string[i] {
+		if num_string[i-1] > num_string[i] {
 			return false
 		}
-		if adjacent && num_string[i - 2] == num_string[i] {
+		if adjacent && num_string[i-2] == num_string[i] {
 			adjacent = false
 			adjacent_count--
 			streak_number = num_string[i]
 		}
-		if num_string[i] != streak_number && num_string[i - 1] == num_string[i] {
+		if num_string[i] != streak_number && num_string[i-1] == num_string[i] {
 			adjacent = true
 			adjacent_count++
 		}
