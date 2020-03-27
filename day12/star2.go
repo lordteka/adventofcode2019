@@ -21,10 +21,10 @@ type Moon struct {
 
 // really don’t want to parse the input
 var Moons [4]Moon = [4]Moon{
-	Moon{Position{-10, -13, 7}, Velocity{0, 0, 0}},
-	Moon{Position{1, 2, 1}, Velocity{0, 0, 0}},
-	Moon{Position{-15, -3, 13}, Velocity{0, 0, 0}},
-	Moon{Position{3, 7, -4}, Velocity{0, 0, 0}},
+	{Position{-10, -13, 7}, Velocity{0, 0, 0}},
+	{Position{1, 2, 1}, Velocity{0, 0, 0}},
+	{Position{-15, -3, 13}, Velocity{0, 0, 0}},
+	{Position{3, 7, -4}, Velocity{0, 0, 0}},
 }
 
 func update_velocity_x() {
